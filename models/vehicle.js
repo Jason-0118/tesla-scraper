@@ -3,6 +3,8 @@ const Schema = mongoose.Schema
 
 
 var VehicleSchema = new Schema({
+    year: { type: Number },
+    model: { type: String },
     vehicle_summary: { type: Object },
     vehicle_history: { type: Object },
     cc: { type: Array },

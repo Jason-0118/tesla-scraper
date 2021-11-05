@@ -73,7 +73,9 @@ Model_webList_local.forEach(item => {
         .then(response => {
             const html = response.data
             const $ = cheerio.load(html)
-            const model = $("h1.not-opaque", html).text()
+            var model = $("h1.not-opaque", html).text()
+            const year = model.substring(0, 4)
+            model = model.substr(5)
             const type = $("span.not-opaque", html).text()
             const vin_trim = $("body > div.venom-app > div > main > div.pb-md-3_25 > div.vdp-content-wrapper.container > div > div.mt-md-1.pr-xl-2.col-12.col-md-7.offset-md-0.col-lg-8 > div.vdp-group.mb-2 > section > div.font-weight-normal.mb-1_25 > div > span.mr-1").text()
             const vin = vin_trim.replace('VIN: ', '')
@@ -101,8 +103,9 @@ Model_webList_local.forEach(item => {
                 ee.push($(this).text())
             })
             individual_model.push({
+                year,
+                model,
                 vehicle_summary: {
-                    model,
                     type,
                     mileage,
                     range,
@@ -151,11 +154,12 @@ app.get('/model', async (req, res) => {
 //step 3: load data
 app.get('/load', (req, res) => {
     loadData()
+    res.send('finish load!')
 })
 
-app.get('/model/:name', (req, res) => {
+app.get('/model/:name', async (req, res) => {
     var input = req.params.name;
-    Vehicle.find({ name: { $regex: input, $option: '$i' } })
+    Vehicle.find({ model: { $regex: input, $options: 'i' } })
         .then(data => {
             res.send(data)
         })
