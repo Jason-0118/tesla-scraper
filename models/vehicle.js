@@ -3,6 +3,7 @@ const Schema = mongoose.Schema
 
 
 var VehicleSchema = new Schema({
+    price: { type: String },
     year: { type: Number },
     model: { type: String },
     vehicle_summary: { type: Object },
@@ -12,6 +13,7 @@ var VehicleSchema = new Schema({
     entertainment: { type: Array },
     ee: { type: Array },
     url: { type: String },
+    like: { type: String }
 })
 
 

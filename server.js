@@ -73,6 +73,8 @@ Model_webList_local.forEach(item => {
         .then(response => {
             const html = response.data
             const $ = cheerio.load(html)
+
+            const price = $("body > div.venom-app > div > main > div.pb-md-3_25 > div.vdp-content-wrapper.container > div > div.p-0.col-12.col-md-5.offset-md-0.col-lg-4.col-xl-4 > div > div > div > div > div > div.price-summary-section.align-items-baseline.pt-0_75.row > div:nth-child(1) > div > span").text()
             var model = $("h1.not-opaque", html).text()
             const year = model.substring(0, 4)
             model = model.substr(5)
@@ -103,6 +105,7 @@ Model_webList_local.forEach(item => {
                 ee.push($(this).text())
             })
             individual_model.push({
+                price,
                 year,
                 model,
                 vehicle_summary: {
@@ -122,7 +125,8 @@ Model_webList_local.forEach(item => {
                 safty,
                 entertainment,
                 ee,
-                url: item.url
+                url: item.url,
+                like: "unlike"
             })
         }).catch((err) => console.log(err))
 })
